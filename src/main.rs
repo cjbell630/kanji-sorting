@@ -16,8 +16,17 @@ impl KanjiRadicalMapWrapper {
             // TODO make separate function so it can be used from the command line, change error message to match, move MASTER_JSON to some sort of dict with path/data associations for error processing
         }
     }
+
+    fn remove_studied(&mut self, studied: &[impl AsRef<str>]) {
+        for kanji in studied {
+            self.map.remove(kanji.as_ref());
+        }
+    }
 }
 
 fn main() {
-    let bruh = KanjiRadicalMapWrapper::new();
+    let mut bruh = KanjiRadicalMapWrapper::new();
+    println!("{:?}", bruh.map.keys());
+    bruh.remove_studied(&["話"]);
+    println!("{:?}", bruh.map.keys());
 }

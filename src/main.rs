@@ -1,3 +1,4 @@
+use std::cmp::max;
 use std::collections::HashMap;
 
 const MASTER_JSON: &str = include_str!("../data/kanji_radical_master.json");
@@ -29,27 +30,42 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn update_lowest_depth(&mut self, kanji: String, depth: i32) {
-        if self
-            .depths
-            .get(&kanji)
-            .is_some_and(|prev_depth| &depth <= prev_depth)
-        {
-            return;
+    fn update_lowest_depth(depths: &mut KanjiDepthMap, kanji: &String, depth: i32) {
+        match depths.get_mut(kanji) {
+            Some(prev_depth) => {
+                *prev_depth = max(depth, *prev_depth);
+            }
+            None => {
+                depths.insert(kanji.clone(), depth);
+            }
         }
-        self.depths.insert(kanji, depth);
     }
 
-    fn h(&mut self) {}
+    fn proc_kanji(full_map: &KanjiRadicalMap, depths: &mut KanjiDepthMap, kanji: &String, depth: i32) {
+        Self::update_lowest_depth(depths, kanji, depth);
+
+        if let Some(radicals) = full_map.get(kanji) {
+            for radical in radicals {
+                Self::proc_kanji(full_map, depths, radical, depth + 1);
+            }
+        }
+    }
+
+    fn do_all(&mut self){
+        println!("{:?}", self.full_map);
+        self.remove_studied(&["話"]);
+        println!("{:?}", self.full_map);
+        Self::update_lowest_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
+        println!("{:?}", self.depths);
+        Self::update_lowest_depth(&mut self.depths, &"舌".parse().unwrap(), 9);
+        println!("{:?}", self.depths);
+        Self::proc_kanji(&self.full_map, &mut self.depths, &"舌".parse().unwrap(), 0);
+        println!("{:?}", self.full_map);
+        println!("{:?}", self.depths);
+    }
 }
 
 fn main() {
     let mut bruh = KanjiRadicalMapWrapper::new();
-    println!("{:?}", bruh.full_map);
-    bruh.remove_studied(&["話"]);
-    println!("{:?}", bruh.full_map);
-    bruh.update_lowest_depth("舌".parse().unwrap(), 0);
-    println!("{:?}", bruh.depths);
-    bruh.update_lowest_depth("舌".parse().unwrap(), 9);
-    println!("{:?}", bruh.depths);
+    bruh.do_all();
 }

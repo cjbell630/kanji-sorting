@@ -41,7 +41,12 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn parse_kanji_and_children(full_map: &KanjiRadicalMap, depths: &mut KanjiDepthMap, kanji: &String, depth: i32) {
+    fn parse_kanji_and_children(
+        full_map: &KanjiRadicalMap,
+        depths: &mut KanjiDepthMap,
+        kanji: &String,
+        depth: i32,
+    ) {
         Self::update_lowest_depth(depths, kanji, depth);
 
         if let Some(radicals) = full_map.get(kanji) {
@@ -51,8 +56,16 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn do_all(&mut self){
+    fn check_depths_from_targets(&mut self, targets: &[String]) {
+        for target in targets {
+            Self::parse_kanji_and_children(&self.full_map, &mut self.depths, target, 0);
+        }
+    }
+
+    fn tests_temp(&mut self) {
+        self.check_depths_from_targets(&["話".parse().unwrap()]);
         println!("{:?}", self.full_map);
+        println!("{:?}", self.depths);
         self.remove_studied(&["話"]);
         println!("{:?}", self.full_map);
         Self::update_lowest_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
@@ -67,5 +80,5 @@ impl KanjiRadicalMapWrapper {
 
 fn main() {
     let mut bruh = KanjiRadicalMapWrapper::new();
-    bruh.do_all();
+    bruh.tests_temp();
 }

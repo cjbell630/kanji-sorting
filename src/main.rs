@@ -3,6 +3,7 @@ mod data_checks;
 mod kanji_map;
 
 mod kanji_lists;
+mod logic;
 
 use clap::Parser;
 
@@ -26,10 +27,9 @@ struct Args {
     #[arg(short, long, action, required = false)]
     remove_studied_children: bool,
 
-    /// Group childless non-joyo kanji with their first joyo parent
+    /// Group childless non-joyo kanji with their first joyo parent [TODO not implemented yet]
     #[arg(short, long, action, required = false)]
     group_radicals_with_parents: bool,
-    // TODO implement this
 }
 
 fn main() {
@@ -47,32 +47,10 @@ fn main() {
         "Please provide at least one list of kanji to study."
     );
 
-    let mut map_wrapper = kanji_map::KanjiRadicalMapWrapper::new();
-    let kanji_lists = kanji_lists::get_kanji_lists();
-
-    if let Some(studied_lists) = args.studied_lists {
-        for studied_list_name in studied_lists {
-            match kanji_lists.get(&studied_list_name) {
-                Some(studied_list) => {
-                    // TODO research terns
-                    if args.remove_studied_children {
-                        map_wrapper.remove_and_children_from_map(studied_list);
-                    } else {
-                        map_wrapper.remove_from_map(studied_list);
-                    }
-                }
-                None => panic!("unknown list \"{}\"", studied_list_name),
-            }
-        }
-    }
-
-    // TODO very similar to above
-    for target_list_name in args.target_lists {
-        match kanji_lists.get(&target_list_name) {
-            Some(target_list) => map_wrapper.check_depths_from_targets(target_list),
-            None => panic!("unknown list \"{}\"", target_list_name),
-        }
-    }
-
-    println!("{:?}", map_wrapper.get_depth_based_order());
+    logic::sort(
+        args.target_lists,
+        args.studied_lists,
+        args.remove_studied_children,
+        args.group_radicals_with_parents,
+    );
 }

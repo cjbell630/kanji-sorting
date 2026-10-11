@@ -84,6 +84,9 @@ impl KanjiRadicalMapWrapper {
             }
         }
 
+        #[cfg(debug_assertions)]
+        println!("{:?}", strings);
+
         let mut result = String::new();
         for depth in (0..=absolute_lowest_depth).rev() {
             result += strings.get(&depth).expect("skipped a depth");

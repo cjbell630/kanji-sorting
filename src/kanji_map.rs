@@ -27,9 +27,9 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    pub fn remove_studied(&mut self, studied: &[impl AsRef<str>]) {
-        for kanji in studied {
-            self.full_map.remove(kanji.as_ref());
+    pub fn remove_from_map(&mut self, list: &Vec<String>) {
+        for kanji in list {
+            self.full_map.remove(kanji);
         }
     }
 
@@ -97,7 +97,7 @@ impl KanjiRadicalMapWrapper {
         println!("{:?}", self.full_map);
         println!("{:?}", self.depths);
         println!("{:?}", self.get_depth_based_order());
-        self.remove_studied(&["話"]);
+        self.remove_from_map(&Vec::from(["話".parse().unwrap()]));
         println!("{:?}", self.full_map);
         Self::store_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
         println!("{:?}", self.depths);

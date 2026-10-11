@@ -52,7 +52,7 @@ fn main() {
     if let Some(studied_lists) = args.studied_lists {
         for studied_list_name in studied_lists {
             match kanji_lists.get(&studied_list_name) {
-                Some(studied_list) => map_wrapper.remove_studied(studied_list),
+                Some(studied_list) => map_wrapper.remove_from_map(studied_list),
                 None => panic!("unknown list \"{}\"", studied_list_name),
             }
         }

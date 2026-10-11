@@ -97,4 +97,5 @@ those two children on the spot
 
 above is inaccurate. instead, detect radicals by whether or not they are in the joyo list. however, that will be
 inefficient if it has to search every single kanji. if it only searches kanji with no children, and only runs if the
-user requests it, that's not bad. but maybe somehow I could do something else
+user requests it, that's not bad. but maybe somehow I could do something else. maybe tag radicals in the dataset with a
+character

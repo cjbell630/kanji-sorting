@@ -35,7 +35,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    if (args.print_list_names) {
+    if args.print_list_names {
         // TODO feels weird putting get call here (so 2 times) but objectively not redundant
         println!("Preset kanji lists:");
         println!("{:?}", kanji_lists::get_kanji_lists().keys());

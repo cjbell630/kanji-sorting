@@ -6,7 +6,7 @@ pub fn sort(
     target_lists: Vec<String>,
     opt_studied_lists: Option<Vec<String>>,
     remove_studied_children: bool,
-    group_radicals_with_parents: bool,
+    _group_radicals_with_parents: bool,
     // TODO implement this
 ) {
     let mut map_wrapper = kanji_map::KanjiRadicalMapWrapper::new();

@@ -99,20 +99,4 @@ impl KanjiRadicalMapWrapper {
         }
         result
     }
-
-    pub(crate) fn tests_temp(&mut self) {
-        self.check_depths_from_targets(&["話".parse().unwrap()]);
-        println!("{:?}", self.full_map);
-        println!("{:?}", self.depths);
-        println!("{:?}", self.get_depth_based_order());
-        self.remove_from_map(&Vec::from(["話".parse().unwrap()]));
-        println!("{:?}", self.full_map);
-        Self::store_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
-        println!("{:?}", self.depths);
-        Self::store_depth(&mut self.depths, &"舌".parse().unwrap(), 9);
-        println!("{:?}", self.depths);
-        Self::parse_kanji_and_children(&self.full_map, &mut self.depths, &"舌".parse().unwrap(), 0);
-        println!("{:?}", self.full_map);
-        println!("{:?}", self.depths);
-    }
 }

@@ -60,8 +60,8 @@ impl KanjiRadicalMapWrapper {
         kanji: &String,
         depth: usize,
     ) {
-        Self::store_depth(depths, kanji, depth);
         if let Some(radicals) = full_map.get(kanji) {
+            Self::store_depth(depths, kanji, depth);
             for radical in radicals {
                 Self::parse_kanji_and_children(full_map, depths, radical, depth + 1);
             }

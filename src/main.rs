@@ -22,7 +22,7 @@ struct Args {
     #[arg(short, long, action, required = false)]
     print_list_names: bool,
 
-    /// Print the available preset list names and exit
+    /// Recursively remove all children of kanji in the studied lists as well as the kanji themselves
     #[arg(short, long, action, required = false)]
     remove_studied_children: bool,
 }

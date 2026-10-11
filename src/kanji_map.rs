@@ -58,13 +58,13 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn check_depths_from_targets(&mut self, targets: &[String]) {
+    pub fn check_depths_from_targets(&mut self, targets: &[String]) {
         for target in targets {
             Self::parse_kanji_and_children(&self.full_map, &mut self.depths, target, 0);
         }
     }
 
-    fn get_depth_based_order(&mut self) -> String {
+    pub(crate) fn get_depth_based_order(&mut self) -> String {
         let mut strings: HashMap<usize, String> = HashMap::new();
         let mut absolute_lowest_depth = 0;
 

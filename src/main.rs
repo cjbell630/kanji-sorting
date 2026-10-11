@@ -44,8 +44,19 @@ fn main() {
     for target_list_name in args.target_lists {
         match kanji_lists.get(&target_list_name) {
             Some(target_list) => map_wrapper.check_depths_from_targets(target_list),
-            None => panic!("could not find list \"{}\"", target_list_name),
+            None => panic!("unknown list \"{}\"", target_list_name),
         }
     }
+
+    // TODO very similar to above
+    if let Some(studied_lists) = args.studied_lists {
+        for studied_list_name in studied_lists {
+            match kanji_lists.get(&studied_list_name) {
+                Some(studied_list) => map_wrapper.remove_studied(studied_list),
+                None => panic!("unknown list \"{}\"", studied_list_name),
+            }
+        }
+    }
+
     println!("{:?}", map_wrapper.get_depth_based_order());
 }

@@ -27,7 +27,7 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn remove_studied(&mut self, studied: &[impl AsRef<str>]) {
+    pub fn remove_studied(&mut self, studied: &[impl AsRef<str>]) {
         for kanji in studied {
             self.full_map.remove(kanji.as_ref());
         }

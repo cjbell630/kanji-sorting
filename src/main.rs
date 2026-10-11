@@ -45,14 +45,6 @@ fn main() {
     let mut map_wrapper = kanji_map::KanjiRadicalMapWrapper::new();
     let kanji_lists = kanji_lists::get_kanji_lists();
 
-    for target_list_name in args.target_lists {
-        match kanji_lists.get(&target_list_name) {
-            Some(target_list) => map_wrapper.check_depths_from_targets(target_list),
-            None => panic!("unknown list \"{}\"", target_list_name),
-        }
-    }
-
-    // TODO very similar to above
     if let Some(studied_lists) = args.studied_lists {
         for studied_list_name in studied_lists {
             match kanji_lists.get(&studied_list_name) {
@@ -66,6 +58,14 @@ fn main() {
                 }
                 None => panic!("unknown list \"{}\"", studied_list_name),
             }
+        }
+    }
+
+    // TODO very similar to above
+    for target_list_name in args.target_lists {
+        match kanji_lists.get(&target_list_name) {
+            Some(target_list) => map_wrapper.check_depths_from_targets(target_list),
+            None => panic!("unknown list \"{}\"", target_list_name),
         }
     }
 

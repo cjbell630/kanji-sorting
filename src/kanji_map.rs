@@ -7,9 +7,8 @@ pub(crate) type KanjiRadicalMap = HashMap<String, Vec<String>>;
 
 type KanjiDepthMap = HashMap<String, usize>;
 
-pub fn get_kanji_map()->KanjiRadicalMap{
-    serde_json::from_str(MASTER_JSON)
-        .expect("improper JSON format in MASTER_JSON")
+pub fn get_kanji_map() -> KanjiRadicalMap {
+    serde_json::from_str(MASTER_JSON).expect("improper JSON format in MASTER_JSON")
 }
 
 pub struct KanjiRadicalMapWrapper {
@@ -34,7 +33,7 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
-    fn update_lowest_depth(depths: &mut KanjiDepthMap, kanji: &String, depth: usize) {
+    fn store_depth(depths: &mut KanjiDepthMap, kanji: &String, depth: usize) {
         // TODO could count the number in each depth so memory can be statically allocated for the stringbuilders
         // TODO also track the overall lowest depth for the same reason
         match depths.get_mut(kanji) {
@@ -53,8 +52,7 @@ impl KanjiRadicalMapWrapper {
         kanji: &String,
         depth: usize,
     ) {
-        Self::update_lowest_depth(depths, kanji, depth);
-
+        Self::store_depth(depths, kanji, depth);
         if let Some(radicals) = full_map.get(kanji) {
             for radical in radicals {
                 Self::parse_kanji_and_children(full_map, depths, radical, depth + 1);
@@ -101,9 +99,9 @@ impl KanjiRadicalMapWrapper {
         println!("{:?}", self.get_depth_based_order());
         self.remove_studied(&["話"]);
         println!("{:?}", self.full_map);
-        Self::update_lowest_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
+        Self::store_depth(&mut self.depths, &"舌".parse().unwrap(), 0);
         println!("{:?}", self.depths);
-        Self::update_lowest_depth(&mut self.depths, &"舌".parse().unwrap(), 9);
+        Self::store_depth(&mut self.depths, &"舌".parse().unwrap(), 9);
         println!("{:?}", self.depths);
         Self::parse_kanji_and_children(&self.full_map, &mut self.depths, &"舌".parse().unwrap(), 0);
         println!("{:?}", self.full_map);

@@ -25,6 +25,11 @@ struct Args {
     /// Recursively remove all children of kanji in the studied lists as well as the kanji themselves
     #[arg(short, long, action, required = false)]
     remove_studied_children: bool,
+
+    /// Group childless non-joyo kanji with their first joyo parent
+    #[arg(short, long, action, required = false)]
+    group_radicals_with_parents: bool,
+    // TODO implement this
 }
 
 fn main() {

@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+mod data_checks;
 
 mod kanji_map;
 

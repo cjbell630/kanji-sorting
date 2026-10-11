@@ -3,9 +3,14 @@ use std::collections::HashMap;
 
 const MASTER_JSON: &str = include_str!("../data/kanji_radical_master.json");
 
-type KanjiRadicalMap = HashMap<String, Vec<String>>;
+pub(crate) type KanjiRadicalMap = HashMap<String, Vec<String>>;
 
 type KanjiDepthMap = HashMap<String, usize>;
+
+pub fn get_kanji_map()->KanjiRadicalMap{
+    serde_json::from_str(MASTER_JSON)
+        .expect("improper JSON format in MASTER_JSON")
+}
 
 pub struct KanjiRadicalMapWrapper {
     full_map: KanjiRadicalMap,
@@ -15,8 +20,7 @@ pub struct KanjiRadicalMapWrapper {
 impl KanjiRadicalMapWrapper {
     pub(crate) fn new() -> Self {
         Self {
-            full_map: serde_json::from_str(MASTER_JSON)
-                .expect("improper JSON format in MASTER_JSON"),
+            full_map: get_kanji_map(),
             // TODO make separate function so it can be used from the command line,
             // change error message to match, move MASTER_JSON to some sort of dict with path/data
             // associations for error processing

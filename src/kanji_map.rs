@@ -33,6 +33,14 @@ impl KanjiRadicalMapWrapper {
         }
     }
 
+    pub fn remove_and_children_from_map(&mut self, list: &Vec<String>) {
+        for kanji in list {
+            if let Some(radicals) = self.full_map.remove(kanji) {
+                self.remove_and_children_from_map(&radicals)
+            }
+        }
+    }
+
     fn store_depth(depths: &mut KanjiDepthMap, kanji: &String, depth: usize) {
         // TODO could count the number in each depth so memory can be statically allocated for the stringbuilders
         // TODO also track the overall lowest depth for the same reason

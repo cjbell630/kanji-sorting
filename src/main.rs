@@ -15,12 +15,16 @@ struct Args {
     target_lists: Vec<String>,
 
     /// Names of the lists of kanji to skip for study (see --print-list-names)
-    #[arg(short, long, required=false, num_args = 0..)]
+    #[arg(short, long, required_if_eq_any=[("remove_studied_children","true")], num_args = 0..)]
     studied_lists: Option<Vec<String>>,
 
     /// Print the available preset list names and exit
     #[arg(short, long, action, required = false)]
     print_list_names: bool,
+
+    /// Print the available preset list names and exit
+    #[arg(short, long, action, required = false)]
+    remove_studied_children: bool,
 }
 
 fn main() {
@@ -52,7 +56,14 @@ fn main() {
     if let Some(studied_lists) = args.studied_lists {
         for studied_list_name in studied_lists {
             match kanji_lists.get(&studied_list_name) {
-                Some(studied_list) => map_wrapper.remove_from_map(studied_list),
+                Some(studied_list) => {
+                    // TODO research terns
+                    if args.remove_studied_children {
+                        map_wrapper.remove_and_children_from_map(studied_list);
+                    } else {
+                        map_wrapper.remove_from_map(studied_list);
+                    }
+                }
                 None => panic!("unknown list \"{}\"", studied_list_name),
             }
         }

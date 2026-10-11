@@ -92,3 +92,9 @@ then, after everything has been processed, iterate through that list and merge p
 IDEALLY, put the child in question last, just before the parent.  
 ALSO parents who are the lowest parent of two pure radical children will get flagged twice, so handle that. maybe merge
 those two children on the spot
+
+### new idea
+
+above is inaccurate. instead, detect radicals by whether or not they are in the joyo list. however, that will be
+inefficient if it has to search every single kanji. if it only searches kanji with no children, and only runs if the
+user requests it, that's not bad. but maybe somehow I could do something else

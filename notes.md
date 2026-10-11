@@ -99,3 +99,11 @@ above is inaccurate. instead, detect radicals by whether or not they are in the 
 inefficient if it has to search every single kanji. if it only searches kanji with no children, and only runs if the
 user requests it, that's not bad. but maybe somehow I could do something else. maybe tag radicals in the dataset with a
 character
+
+## other thing
+
+not sure yet but maybe completely separate trees should actually ideally align themselves with the lowest tree?  
+trees with multiple tops should def align all of their tops together but I think completely disconnected trees should
+prob not have their tops at the same level. For example, a kanji with no new radicals or sub kanji should not
+necessarily be at the end of the list, since it has no dependencies to learn. But that seems super complicated to
+implement
